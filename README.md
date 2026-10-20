@@ -1,30 +1,39 @@
-# GitHub Workflow Test Lab
+# BadgeQuest — GitHub Achievement Planner
 
-A small public repository for learning and validating everyday GitHub workflows: issues, branches, pull requests, documentation, and repository hygiene.
+A responsive, static checklist that helps developers understand GitHub profile achievements and track their personal goals.
 
-## Purpose
+**Live demo:** Enable GitHub Pages in the repository settings to publish `index.html` from the `main` branch.
 
-This repository is an isolated test space. It is not intended to represent a production application. Changes should be small, useful, and easy to review.
+## Features
 
-## Workflow
+- Responsive dark UI for desktop and mobile
+- Filter achievements by earned, goals, or historical events
+- Progress summary updates as the checklist changes
+- Checklist state is saved in the current browser using `localStorage`
+- Links to GitHub and official profile documentation
+- No build step, framework, backend, analytics, or API token required
 
-1. Open an issue describing a real setup task or improvement.
-2. Create a focused feature branch.
-3. Make a meaningful change and verify it before opening a pull request.
-4. Describe the change and link the related issue in the pull request.
-5. Review the diff, merge when ready, and confirm the issue is resolved.
+## Run locally
 
-## Repository checklist
+Open `index.html` in a modern browser. The page is self-contained.
 
-- [x] Public repository created
-- [ ] Contributor guidance added
-- [ ] Testing checklist added
-- [ ] First documentation pull request merged
+## Enable GitHub Pages
 
-## Achievement note
+1. Open **Settings → Pages** in this repository.
+2. Under the build and deployment settings, select **Deploy from a branch**.
+3. Choose branch `main` and folder `/ (root)`, then save.
+4. Wait for the deployment to finish; GitHub will show the published URL in Pages settings.
 
-GitHub profile achievements are granted by GitHub according to account-level eligibility and platform rules. This repository can help practise qualifying workflows, but it cannot guarantee every achievement. Some achievements require activity from other developers, community acceptance, or stars.
+## Important limitations
 
-## Contributing and testing
+BadgeQuest is a **manual planner**, not a GitHub account integration. It does not fetch or verify your achievements and cannot grant badges. The checkboxes are personal notes stored only in this browser and do not sync between devices. GitHub controls eligibility, award timing, visibility, and badge tiers; requirements may change. Some achievements depend on other developers' participation, accepted answers, or stars, and historical-event badges cannot be earned today.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [TESTING.md](TESTING.md) for the workflow and verification checklist.
+Read the [official GitHub profile reference](https://docs.github.com/en/account-and-profile/reference/profile-reference) before relying on eligibility details.
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) and [TESTING.md](TESTING.md). Suggestions should improve accuracy, accessibility, or developer value rather than encourage artificial activity.
+
+## License
+
+Released under the MIT License. See [LICENSE](LICENSE).
