@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#10131a">
+  <meta name="description" content="A privacy-friendly, manual checklist for learning about GitHub profile achievements and tracking your own progress.">
+  <title>BadgeQuest — GitHub Achievement Planner</title>
+  <style>
+    :root{--bg:#10131a;--panel:#171c26;--panel2:#1d2430;--text:#f1f5f9;--muted:#a3adbd;--line:#30394a;--accent:#9b8cff;--mint:#65e6b2;--gold:#ffc86b;--red:#ff8f9a;--radius:18px}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(ellipse at 85% 0%,#242044 0,transparent 36%),var(--bg);color:var(--text);font:16px/1.55 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a{color:#c8c0ff;text-decoration-thickness:1px;text-underline-offset:3px}
+    a:hover{color:#fff}
+    .wrap{width:min(1100px,calc(100% - 32px));margin:auto}
+    header{padding:38px 0 26px;border-bottom:1px solid var(--line)}
+    .topline{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.2px}
+    .brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#8e7dff,#5be5b0);color:#10131a;font-size:23px}
+    .tag{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:5px 10px;color:var(--muted)}
+    h1{font-size:clamp(2rem,5.2vw,3.6rem);line-height:1.06;letter-spacing:-1.6px;margin:0 0 15px;max-width:750px}
+    .gradient{background:linear-gradient(90deg,#c7beff,#70edc0);background-clip:text;-webkit-background-clip:text;color:transparent}
+    .intro{color:var(--muted);max-width:680px;margin:0;font-size:1.05rem}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0 0}
+    .stat{background:#171c26cc;border:1px solid var(--line);border-radius:16px;padding:16px}
+    .stat strong{display:block;font-size:1.65rem;line-height:1.1}
+    .stat span{display:block;color:var(--muted);font-size:.87rem;margin-top:7px}
+    main{padding:26px 0 52px}
+    .toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    button,.select-like{font:inherit;cursor:pointer;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:9px 14px}
+    button:hover{border-color:#8274e8}
+    button[aria-pressed="true"]{background:#2d2752;border-color:#9587ff;color:#fff}
+    .reset{color:var(--muted);background:transparent}
+    .section-title{font-size:1.1rem;margin:28px 0 12px;display:flex;align-items:center;gap:10px}
+    .section-title:after{content:"";height:1px;background:var(--line);flex:1}
+    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .card{position:relative;display:flex;flex-direction:column;gap:14px;min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,#1a202b,#141821);padding:18px;transition:border-color .15s,transform .15s}
+    .card:hover{border-color:#6258a3;transform:translateY(-2px)}
+    .card-head{display:flex;align-items:flex-start;gap:12px}
+    .emoji{display:grid;place-items:center;flex:0 0 52px;height:52px;border-radius:16px;background:var(--panel2);font-size:29px}
+    .card h3{font-size:1.03rem;margin:1px 0 4px}
+    .kind{font-size:.75rem;color:var(--muted);letter-spacing:.35px;text-transform:uppercase}
+    .card p{color:#bac3d1;font-size:.92rem;margin:0;flex:1}
+    .hint{font-size:.84rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+    .card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .state{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:700}
+    .state.earned{color:var(--mint)} .state.target{color:var(--gold)} .state.retired{color:#9aa4b3}
+    .mark{font-size:.84rem;padding:7px 11px;white-space:nowrap}
+    .mark.done{border-color:#286c53;background:#17372e;color:#a0f7d1}
+    .mark:disabled{cursor:not-allowed;opacity:.5}
+    .notice{margin-top:22px;padding:15px 17px;border:1px solid #4b456f;background:#201d35;border-radius:14px;color:#d1caff;font-size:.92rem}
+    .bottom{display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.87rem}
+    .empty{padding:30px;text-align:center;border:1px dashed var(--line);border-radius:var(--radius);color:var(--muted);grid-column:1/-1}
+    @media(max-width:850px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:560px){.wrap{width:min(100% - 22px,1100px)}header{padding-top:24px}.hero-stats{gap:8px}.stat{padding:12px}.stat strong{font-size:1.35rem}.stat span{font-size:.76rem}.cards{grid-template-columns:1fr}.topline{align-items:flex-start}.tag{display:none}h1{letter-spacing:-.8px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topline">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span><span>BadgeQuest</span></div>
+        <span class="tag">Free · Static · Privacy-friendly</span>
+      </div>
+      <h1>Your next milestone starts with <span class="gradient">real contributions.</span></h1>
+      <p class="intro">A simple personal planner for GitHub profile achievements. Learn what each badge recognises, keep track of your goals, and focus on work that helps real developers.</p>
+      <div class="hero-stats" aria-live="polite">
+        <div class="stat"><strong id="earnedCount">3</strong><span>Marked earned</span></div>
+        <div class="stat"><strong id="targetCount">4</strong><span>Active goals</span></div>
+        <div class="stat"><strong id="percentCount">43%</strong><span>Planner progress</span></div>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="toolbar">
+      <div class="filters" role="group" aria-label="Filter achievements">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="earned" aria-pressed="false">Earned</button>
+        <button type="button" data-filter="target" aria-pressed="false">Goals</button>
+        <button type="button" data-filter="retired" aria-pressed="false">Historical</button>
+      </div>
+      <button type="button" class="reset" id="reset">Reset manual changes</button>
+    </div>
+    <h2 class="section-title">Active achievements</h2>
+    <div class="cards" id="activeCards"></div>
+    <h2 class="section-title">Historical achievements</h2>
+    <div class="cards" id="historicalCards"></div>
+    <div class="notice"><strong>Honest tracking:</strong> BadgeQuest does not connect to your GitHub account and cannot award, verify, or unlock an achievement. The checkboxes are your own notes and are saved only in this browser. Eligibility and tiers may change; verify details on GitHub's official profile documentation.</div>
+    <div class="bottom">
+      <span>Made for developers who prefer progress over shortcuts.</span>
+      <span><a href="https://github.com/jilani-X-Dev/Test1">Source code</a> · <a href="https://github.com/jilani-X-Dev?tab=achievements">View GitHub profile</a> · <a href="https://docs.github.com/en/account-and-profile/reference/profile-reference">Official documentation</a></span>
+    </div>
+  </main>
+  <script>
+    const achievements = [
+      {id:"pull-shark",name:"Pull Shark",icon:"🦈",kind:"Pull requests",status:"earned",summary:"Recognises merged pull request contributions. Continue shipping useful, reviewable changes to progress through eligible tiers.",hint:"Focus: quality PRs that solve real problems.",url:"https://github.com/pulls"},
+      {id:"quickdraw",name:"Quickdraw",icon:"⚡",kind:"Fast issue / PR close",status:"earned",summary:"Recognises quickly closing an issue or pull request within GitHub's qualifying time window.",hint:"Use this for real duplicates or completed tasks, not artificial activity.",url:"https://docs.github.com/en/account-and-profile/reference/profile-reference"},
+      {id:"pair-extraordinaire",name:"Pair Extraordinaire",icon:"🤝",kind:"Collaboration",status:"earned",summary:"Recognises a qualifying merged pull request with co-authored commits.",hint:"Pair on a meaningful change and give each contributor proper attribution.",url:"https://docs.github.com/en/account-and-profile/reference/profile-reference"},
+      {id:"yolo",name:"YOLO",icon:"🚀",kind:"Pull requests",status:"target",summary:"Recognises merging a pull request without a code review. Only merge directly when the change is safe and you deliberately accept the risk.",hint:"Do not bypass review policies or merge risky changes just for a badge.",url:"https://docs.github.com/en/account-and-profile/reference/profile-reference"},
+      {id:"galaxy-brain",name:"Galaxy Brain",icon:"🧠",kind:"Discussions",status:"target",summary:"Recognises helpful answers in GitHub Discussions that another participant marks as accepted.",hint:"Answer real questions accurately. Acceptance is decided by the asker or eligible maintainer.",url:"https://docs.github.com/en/discussions"},
+      {id:"starstruck",name:"Starstruck",icon:"🌟",kind:"Community",status:"target",summary:"Recognises popular repositories that receive stars from the community.",hint:"Build something useful, document it well, add a demo, and share it honestly. Stars cannot be guaranteed.",url:"https://github.com/jilani-X-Dev/Test1"},
+      {id:"public-sponsor",name:"Public Sponsor",icon:"💚",kind:"Sponsorship",status:"target",summary:"Recognises eligible public GitHub Sponsors activity.",hint:"This may involve spending money. Never sponsor someone solely because you feel pressured to earn a badge.",url:"https://github.com/sponsors"},
+      {id:"arctic-code-vault",name:"Arctic Code Vault Contributor",icon:"❄️",kind:"Historical",status:"retired",summary:"A time-limited achievement associated with repositories included in GitHub's 2020 Arctic Code Vault archive.",hint:"Historical event; new contributions today cannot unlock this.",url:"https://docs.github.com/en/account-and-profile/reference/profile-reference"},
+      {id:"mars-2020",name:"Mars 2020 Helicopter Contributor",icon:"🚁",kind:"Historical",status:"retired",summary:"An event-specific achievement for qualifying commits to selected repositories related to the Mars 2020 helicopter mission.",hint:"The event has ended; this is not a current goal.",url:"https://docs.github.com/en/account-and-profile/reference/profile-reference"}
+    ];
+    const defaults = Object.fromEntries(achievements.map(a => [a.id,a.status === "earned"]));
+    const storageKey = "badgequest-tracker-v1";
+    let tracked = loadState();
+    let filter = "all";
+    function loadState(){try{const saved=JSON.parse(localStorage.getItem(storageKey));return saved && typeof saved === "object" ? {...defaults,...saved} : {...defaults};}catch{return {...defaults};}}
+    function saveState(){try{localStorage.setItem(storageKey,JSON.stringify(tracked));}catch{}}
+    function stateFor(a){return a.status==="retired" ? "retired" : tracked[a.id] ? "earned" : "target";}
+    function card(a){
+      const state=stateFor(a), wrap=document.createElement("article");
+      wrap.className="card";
+      wrap.innerHTML=`<div class="card-head"><div class="emoji" aria-hidden="true">${a.icon}</div><div><div class="kind">${a.kind}</div><h3></h3></div></div><p></p><div class="hint"></div><div class="card-foot"><span class="state ${state}">${state==="earned"?"✓ Marked earned":state==="retired"?"◌ Historical":"◎ Goal"}</span><button type="button" class="mark ${state==="earned"?"done":""}" ${state==="retired"?"disabled":""} aria-pressed="${state==="earned"}">${state==="earned"?"Earned ✓":"Mark earned"}</button></div>`;
+      wrap.querySelector("h3").textContent=a.name;
+      wrap.querySelector("p").textContent=a.summary;
+      wrap.querySelector(".hint").textContent=a.hint;
+      wrap.querySelector(".kind").innerHTML += ` · <a href="${a.url}" target="_blank" rel="noopener noreferrer">Details ↗</a>`;
+      const btn=wrap.querySelector("button");
+      btn.addEventListener("click",()=>{tracked[a.id]=!tracked[a.id];saveState();render();});
+      return wrap;
+    }
+    function render(){
+      const active=document.getElementById("activeCards"), hist=document.getElementById("historicalCards");
+      active.replaceChildren();hist.replaceChildren();
+      const visible=achievements.filter(a=>filter==="all"||stateFor(a)===filter);
+      const activeList=visible.filter(a=>a.status!=="retired"),histList=visible.filter(a=>a.status==="retired");
+      activeList.forEach(a=>active.append(card(a)));histList.forEach(a=>hist.append(card(a)));
+      document.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.filter===filter)));
+      const earned=achievements.filter(a=>a.status!=="retired"&&tracked[a.id]).length;
+      const goals=achievements.filter(a=>a.status==="target"&&!tracked[a.id]).length;
+      const total=achievements.filter(a=>a.status!=="retired").length;
+      document.getElementById("earnedCount").textContent=earned;
+      document.getElementById("targetCount").textContent=goals;
+      document.getElementById("percentCount").textContent=Math.round(earned/total*100)+"%";
+      if(!activeList.length)active.innerHTML='<div class="empty">No active achievements match this filter.</div>';
+      if(!histList.length && (filter==="all"||filter==="retired"))hist.innerHTML='<div class="empty">No historical achievements to show.</div>';
+    }
+    document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;render();}));
+    document.getElementById("reset").addEventListener("click",()=>{if(confirm("Reset the manual checklist to the screenshot-based starting state?")){tracked={...defaults};saveState();render();}});
+    render();
+  </script>
+</body>
+</html>
