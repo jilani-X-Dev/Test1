@@ -37,3 +37,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) and [TESTING.md](TESTING.md). Suggestion
 ## License
 
 Released under the MIT License. See [LICENSE](LICENSE).
+
+---
+
+> README reviewed: 11 November 2026. Keep setup instructions, feature claims, and known limitations aligned with the current implementation.
