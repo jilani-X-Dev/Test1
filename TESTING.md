@@ -20,7 +20,7 @@ From the repository root, run this PowerShell snippet to identify local Markdown
 $files = Get-ChildItem -Recurse -Filter *.md
 foreach ($file in $files) {
   $content = Get-Content $file.FullName -Raw
-  foreach ($match in [regex]::Matches($content, '\\[[^\\]]+\\]\\(([^)#]+)(?:#[^)]+)?\\)')) {
+  foreach ($match in [regex]::Matches($content, '\[[^\]]+\]\(([^)#]+)(?:#[^)]+)?\)')) {
     $target = $match.Groups[1].Value
     if ($target -match '^https?://' -or $target.StartsWith('#')) { continue }
     $resolved = Join-Path $file.DirectoryName $target
