@@ -30,6 +30,10 @@ BadgeQuest is a **manual planner**, not a GitHub account integration. It does no
 
 Read the [official GitHub profile reference](https://docs.github.com/en/account-and-profile/reference/profile-reference) before relying on eligibility details.
 
+## Achievement roadmap
+
+See [ACHIEVEMENTS.md](ACHIEVEMENTS.md) for the current achievement categories, community-observed milestones, and a genuine project roadmap. Requirements can change; verify the badge details on your GitHub profile.
+
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) and [TESTING.md](TESTING.md). Suggestions should improve accuracy, accessibility, or developer value rather than encourage artificial activity.
